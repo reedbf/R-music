@@ -5,11 +5,11 @@
         <div class="back" @click="showToggle(1)">
           <i class="fa fa-angle-left fa-2x"></i>
         </div>
-        <input class="searchInput" v-model="searchWorld" placeholder="搜索歌曲、歌手" type="text">
+        <input v-focus class="searchInput" v-model="searchWorld" placeholder="搜索歌曲、歌手" type="text">
         <i class="el-icon-close back" @click="searchWorld=''" v-if="searchWorld!=''"></i>
       </header>
 
-      <div class="resultsBox">
+      <div class="resultsBox addTop" v-if="searchTip">
         <div class="HS-title">热门搜索</div>
         <div class="hotSearchBox">
           <div
@@ -20,7 +20,7 @@
           >{{item.first}}</div>
         </div>
       </div>
-      <div class="resultsBox">
+      <div class="resultsBox" v-if="searchTip">
         <div class="HS-title">搜索历史</div>
         <div class="hotSearchBox">
           <div
@@ -31,9 +31,25 @@
           >{{item}}</div>
         </div>
       </div>
-      <div class="SearchResults" v-for="(item,index) of searchList" :key="index" @click="playSong(item.id,item.name,item.artists[0].name,item.album.blurPicUrl)">
-        <div class="searchName">{{item.name}}</div>
-        <div>{{item.artists[0].name}}</div>
+      <div class="scrollBox" ref="page" v-if="searchList.length>1">
+        <div class="SearchResultsBox">
+          <div class="SearchResults" v-for="(item,index) of searchList" :key="index" @click="playSong(item.id,item.name,item.artists[0].name,item.album.blurPicUrl)">
+            <div class="searchName">{{item.name}}</div>
+            <div>{{item.artists[0].name}}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <el-button class="lBtn" type="danger" @click="dNumber+=10" size="small" round>add</el-button>        
+        <el-button class="lBtn" type="danger" @click="dNumber-=10" size="small" round>down</el-button>        
+        
+        <P >{{dNumber}}</P>
+        <input class=""   placeholder="1111" type="text">
+      </div>
+      <div id="animated-number-demo">
+        <input v-model.number="number" type="number" step="20">
+        <p>{{ animatedNumber }}</p>
       </div>
     </div>
   </transition>
@@ -41,6 +57,8 @@
 
 <script>
 import BScroll from 'better-scroll'
+
+
 const debounce = (func, wait) => {
   let timeout = "";
   return v => {
@@ -54,18 +72,41 @@ const debounce = (func, wait) => {
 };
 
 export default {
+  el: '#animated-number-demo',
   data() {
     return {
       hotList: [],
       searchWorld: "",
       searchList: [],
       showDetail: false,
-      searchHistory: []
+      searchHistory: [],
+      searchTip:true,
+
+      number: 0,
+      tweenedNumber: 0,
+      dNumber:0
     };
+  },
+  directives: {
+    focus: {
+      // 指令的定义
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  },
+  computed: {
+    animatedNumber: function() {
+      return this.tweenedNumber.toFixed(0);
+    }
   },
   watch: {
     searchWorld: function() {
       this.debounceSearch(this);
+      this.searchWorld===''?this.searchTip=true:''
+    },
+    number:(newValue)=>{
+      TweenLite.to(this.$data, 0.5, { tweenedNumber: newValue });
     }
   },
   methods: {
@@ -76,6 +117,20 @@ export default {
         this.searchWorld=''
         this.hotList = re.data.result.hots;
         this.btScroll();
+        this.$nextTick(() => {
+					//$refs绑定元素
+					if(!this.scroll){
+						this.scroll = new BScroll(this.$refs.page, {
+						click:true   //开启点击事件 默认为false
+					})
+					console.log(this.scroll)
+					}else if(!this.$refs.page){
+						return
+					}
+					else{
+						this.scroll.refresh()
+					}
+        })
       });
     },
     sollorder() {
@@ -94,7 +149,7 @@ export default {
       this.$axios.get("http://120.79.162.149:3000/search?keywords=" + this.searchWorld)
       .then(re => {
         this.searchList = re.data.result.songs;
-        
+        this.searchTip=false
       });
       if(this.searchHistory.includes(this.searchWorld)){
         var i = this.searchHistory.indexOf(this.searchWorld)
@@ -107,14 +162,16 @@ export default {
       this.searchHistory.push(this.searchWorld);
       this.searchHistory.reverse()
       localStorage.setItem('searchHistory',this.searchHistory)
+    },
+    toText:()=>{
+      //n nnn nn nn
     }
   }
 };
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active,.fade-leave-active {
   transition: all 0.2s ease;
   transform: translate3d(0, 0, 0);
 }
@@ -136,6 +193,8 @@ export default {
   display: flex;
   top: 0;
   width: 100%;
+  z-index: 100;
+  position: fixed;
 }
 /* .resultsBox:first-child{
   margin-top: 44px;
@@ -174,6 +233,9 @@ export default {
   padding: 3px 10px;
   background: #f3f3f3;
 }
+.SearchResultsBox{
+
+}
 .SearchResults {
   border-bottom: 1px solid #e4e4e4;
   width: 100%;
@@ -190,4 +252,10 @@ export default {
   text-overflow: ellipsis;
   font-size: 16px;
 }
+.scrollBox{
+  width: 100vw;
+  height: calc(100vh - 44px);
+  z-index: 80;
+}
+.addTop{margin-top: 44px;}
 </style>

@@ -41,7 +41,7 @@
 						<div class="collection"><i class="el-icon-plus"></i>收藏({{Math.floor(musicList.subscribedCount/10000)}}万)</div>
 					</div>
 					<div class="song-list-box">
-						<div class="cell-song" v-for="(item,index) of musicList.tracks" :key="index" :id="item.id">
+						<div class="cell-song" @click="playSong(item.id,item.name,item.ar[0].name,item.al.picUrl)" v-for="(item,index) of musicList.tracks" :key="index" :id="item.id">
 							<div class="songindex">{{index+1}}</div>
 							<div class="songInfo">
 								<div class="songName">{{item.name}}</div>

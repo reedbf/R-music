@@ -8,7 +8,12 @@
 				</div>
 				<div class="playInfo" @click="getGeci">
 					<div class="imgbox flex" v-if="AorB">
-						<img class='[nowclass]' :src="$store.state.playInfo.bgurl">
+						<div class="lianyi" :class='cdCls'></div>
+						<div class="dian"></div>
+						<!-- <div class="lianyi ly2" :class="playIcon?'':'cs3pause'"></div>
+						<div class="lianyi ly3" :class="playIcon?'':'cs3pause'"></div>
+						<div class="lianyi ly4" :class="playIcon?'':'cs3pause'"></div> -->
+						<img :class="[playing ? 'onplay' : 'onplay pause']"  :src="$store.state.playInfo.bgurl" >
 					</div>
 					<div class="geci" ref="geciBox" v-if="!AorB">
 						<div class="geciBox">
@@ -35,8 +40,8 @@
 							@abort="ocAbort"
 							:src="$store.state.audio" id="myAudio" 
 							preload="metadata"
-							controls autoplay></audio>
-							
+							controls ></audio>
+							<!-- autoplay -->
 						</div> 
 						
 					</div>
@@ -92,17 +97,27 @@ export default {
 			musicInfo:{name:'',bgurl:'',audio:''},
 			showDetail:true, 
 			playing: false,   // 该字段是音频是否处于播放状态的属性
-			AorB:false,
+			AorB:true,
 			geci:'',
 			audio:'',
 			isLike:false,
-			geciTime:''
+			geciTime:'',
+			// isEnd:this.$refs.audio.ended
 		}
 	},
-	components: {
-    "comment": comment,
+	// components: {
+    // "comment": comment,
+	// },
+	watch:{
+		timeVal:()=>{
+			this.timeVal==this.maxTime&&this.pause()
+		}
 	},
-  
+	computed:{
+		cdCls(){
+			return this.playing ? 'onplay' : 'onplay pause'
+		}
+	},
 	methods: {
 		getData(){
 			// this.showDetail1 = !this.showDetail1
@@ -124,7 +139,6 @@ export default {
 
 						var rowGC={time:nt[0]*60+ Number(nt[1]),txt:now[1]}
 						geci.push(rowGC)
-						console.log(typeof(nt[1]))
 					}
 					this.geci = geci
 				}else{
@@ -167,7 +181,7 @@ export default {
 		},
 		// 控制音频的播放与暂停
 		startPlayOrPause () {
-			this.playIcon ?  this.play():this.pause() 
+			this.playIcon ?  this.pause():this.play()
 			// if(this.playIcon) {
 			// 	this.play()
 			// }  else{
@@ -181,7 +195,6 @@ export default {
 		// 播放音频
 		play () {
 			this.$refs.audio.play()
-			
 		},
 		// 暂停音频
 		pause () {
@@ -226,8 +239,9 @@ export default {
 				return '0:00:00'
 			}
 		},
-		// 当timeupdate事件大概每秒一次，用来更新音频流的当前播放时间
+		// timeupdate事件大概每秒一次，更新音频流的当前播放时间
 		onTimeupdate(res) {
+			// this.playing==false?this.playIcon=true:''
 			// console.log('timeupdate')
 			// console.log(res)
 			this.timeVal = res.target.currentTime
@@ -352,11 +366,88 @@ audio{}
 .text{line-height: 40px;color: #c7c7c7;font-size: 14px;}
 .video{position: absolute;top: 30px;width: 100%;}
 .current{color: #fff;}
+.geciBox{z-index: 1010;};
 
-.geciBox{z-index: 1010;}
+.cs3pause{
+    animation-play-state: paused;
+	-webkit-animation-play-state:paused; /* Safari 和 Chrome */
+	border: 4px solid red;
+}
+.pause {
+	animation-play-state: paused !important;
+	-webkit-animation-play-state:paused!important; /* Safari 和 Chrome */
 
+}
 
+.onplay{animation: rotate 20s linear infinite;}
 
+.dian{position: absolute;width: 8px;height: 8px;background: red;border-radius: 50%;top: -5px;left: 130px;
+	/* animation: dAnimation 4.6s;
+	-webkit-animation: dAnimation 4.6s infinite linear; */
+	animation: rotate 20s linear infinite;
+}
+.lianyi{width: 270px;height: 270px;border: 2px solid #e5efea;border-radius: 50%;position: absolute;
+ animation: myfirst 4.6s;
+  -webkit-animation: myfirst 4.6s infinite linear;
+}
+.ly2{width: 270px !important;height: 270px !important;animation-delay:1.2s;-webkit-animation-delay:1.2s; /* Safari 和 Chrome */}
+.ly3{width: 270px !important;height: 270px !important;animation-delay:2.4s;-webkit-animation-delay:2.4s; /* Safari 和 Chrome */}
+.ly4{width: 270px !important;height: 270px !important;animation-delay:3.6s;-webkit-animation-delay:3.6s; /* Safari 和 Chrome */}
+
+@keyframes myfirst {
+  0% {
+    -ms-transform: scale(1, 1); /* IE 9 */
+    -webkit-transform: scale(1, 1); /* Safari */
+    transform: scale(1, 1); /* 标准语法 */
+	opacity: 1
+  }
+
+  100% {
+    -ms-transform: scale(1.5,1.5); /* IE 9 */
+    -webkit-transform: scale(1.5,1.5); /* Safari */
+    transform: scale(1.5,1.5); /* 标准语法 */
+	opacity: 0
+  }
+}
+
+@-webkit-keyframes myfirst {
+  0% {
+    -ms-transform: scale(1, 1); /* IE 9 */
+    -webkit-transform: scale(1, 1); /* Safari */
+    transform: scale(1, 1); /* 标准语法 */
+	opacity: 1
+  }
+
+  100% {
+    -ms-transform: scale(1.5,1.5); /* IE 9 */
+    -webkit-transform: scale(1.5,1.5); /* Safari */
+    transform: scale(1.5,1.5); /* 标准语法 */
+	opacity: 0;
+  }
+}
+@keyframes dAnimation {
+  0% {
+    
+	opacity: 1
+  }
+
+  100% {
+    
+	opacity: 0
+  }
+}
+
+@-webkit-keyframes dAnimation {
+  0% {
+    
+	opacity: 1
+  }
+
+  100% {
+    
+	opacity: 0;
+  }
+}
 
 
 
