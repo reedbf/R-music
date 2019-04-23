@@ -11,7 +11,7 @@ import musicList from '@/components/musicList'
 import paihang from '@/components/paihang'
 import me from '@/components/me'
 import menu from '@/components/menu'
-import ccv from '@/components/ccv'
+import video from '@/components/video'
 
 
 Vue.use(Router)
@@ -81,8 +81,8 @@ export default new Router({
       component: menu
     },
     {
-      path: '/ccv',
-      component: ccv
+      path: '/video',
+      component: video
     },
   ]
   

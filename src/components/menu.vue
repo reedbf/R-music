@@ -20,7 +20,13 @@
               <div class="cellMenu" v-for="(item,index) of menuList" :key="index">
                 <i class="fa" v-bind:class="[item.icon]"></i>
                 {{item.name}}
-                </div>
+              </div>
+            </div>
+            
+            <div class="colorShow">
+              <div class="cellColor flex" v-for="(item,index) in cBox" @click="setColor(item)" :key="index" :style='{background:item}'>
+                <i class="fa fa-star" v-if="item==$store.state.zColor"></i>
+              </div>
             </div>
             <div class="set-ctrl">
               <div class="cellMenu cl6" ><i class="fa fa-moon-o"></i>夜间模式</div>
@@ -55,7 +61,9 @@ export default {
         {name:'我的好友',icon:'fa-user-o'},
         {name:'皮肤商城',icon:'fa-tint'},
         {name:'听歌识曲',icon:'fa-microphone'},
+        {name:'主题设置',icon:''}
         ],
+      cBox:['#ffb5b0','#49c6ff','#7cdfc7','#f8e089','#ffb13f'],
       showDetail:false,
     }
   },
@@ -83,6 +91,10 @@ export default {
     Login(){
       this.showToggle(1);
       this.$router.push({ path: 'loging' }) ;
+    },
+    setColor(e){
+      sessionStorage.setItem('themeColor',e)
+      this.$store.state.zColor=e
     }
   }
 }
@@ -96,9 +108,9 @@ export default {
 	transition: all 0.4s ease;
 	transform:translate3d(0,0,100%);
 }
-.menu{position: fixed;top: 0;left: 0;width: 100vw;height: 100vh;z-index: 500;}
-.menuMask{width: 100vw;height: 100vh;background: #000000;opacity: .4;position: fixed;top: 0;left: 0;z-index: 555;}
-.leftMenu{position: fixed;top: 0;left: 0;width: 84vw;height: 100vh;background: #f2f3f4;z-index: 600;}
+.menu{position: fixed;top: 0;left: 0;width: 100vw;height: 100vh;z-index: 900;}
+.menuMask{width: 100vw;height: 100vh;background: #000000;opacity: .4;position: fixed;top: 0;left: 0;z-index: 910;}
+.leftMenu{position: fixed;top: 0;left: 0;width: 84vw;height: 100vh;background: #f2f3f4;z-index: 990;}
 .us-head{width: 100%;height: 162px;background-size: cover;background-position: 0 37%;color: #fff;display: flex;flex-wrap: wrap}
 .avatar{width: 80px;height: 80px;border-radius: 50px;margin: 40px 170px 10px 10px}
 .us-name{font-size: 16px;}
@@ -107,4 +119,8 @@ export default {
 .cellMenu i{width: 20px;text-align: center;}
 .set-ctrl{position: absolute;bottom: 0;left: 0;width: 100%;display: flex;}
 .set-ctrl .cellMenu+.cellMenu{text-align: right;}
+.el-collapse-item__header{height: 40px!important;line-height: 40px;}
+.cellColor{width: 30px;height: 30px;border-radius: 50%;}
+.cellColor i{color: #fff;}
+.colorShow{display: flex;align-items: center;justify-content: space-around;padding: 10px; background: #fff;}
 </style>

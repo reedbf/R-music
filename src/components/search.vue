@@ -1,7 +1,7 @@
 <template>
   <transition id="search" name="fade" class="wrapper">
     <div class="search" v-show="showDetail">
-      <header class="topctrl">
+      <header class="topctrl" :style="{background:$store.state.zColor}">
         <div class="back" @click="showToggle(1)">
           <i class="fa fa-angle-left fa-2x"></i>
         </div>
@@ -189,7 +189,6 @@ export default {
   background: #ffff;
 }
 .topctrl {
-  background: #ffb5b0;
   display: flex;
   top: 0;
   width: 100%;

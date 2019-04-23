@@ -100,11 +100,11 @@ Vue.prototype.openSongList=function(e){
   
 }
 // 打开播放页
-Vue.prototype.playSong=function(q,w,e,r){
+Vue.prototype.playSong=function(q,w,e,r,index){
   this.$store.commit('togglePlay')
   console.log("0showPlay")
   if(q!=undefined){
-    var songInfo= {id:q,name:w,art:e,bgurl:r,}
+    var songInfo= {id:q,name:w,art:e,bgurl:r,index:index}
     this.$store.state.playInfo=songInfo
     // sessionStorage.setItem('playInfo',JSON.stringify(songInfo))
     // console.log(sessionStorage.getItem('playInfo'))
@@ -130,7 +130,13 @@ Vue.prototype.playAll=function(e){
 
 
 
-
+Vue.directive('focus', {
+  // 当被绑定的元素插入到 DOM 中时……
+  inserted: function (el) {
+    // 聚焦元素
+    el.focus()
+  }
+})
 
 
 

@@ -5,14 +5,23 @@
 				<div class="playHead">
 					<div class="back" @click="playSong()"><i class="el-icon-back"></i></div>
 					<div class="r-title">{{$store.state.playInfo.name}}</div>
+					<div class="r-art">{{$store.state.playInfo.art}}</div>
 				</div>
 				<div class="playInfo" @click="getGeci">
 					<div class="imgbox flex" v-if="AorB">
-						<div class="lianyi" :class='cdCls'></div>
-						<div class="dian"></div>
-						<!-- <div class="lianyi ly2" :class="playIcon?'':'cs3pause'"></div>
-						<div class="lianyi ly3" :class="playIcon?'':'cs3pause'"></div>
-						<div class="lianyi ly4" :class="playIcon?'':'cs3pause'"></div> -->
+						<div class="lianyi" :class='cdCls'>
+							<div :class='ddCls'><div class="mini"></div></div>
+						</div>
+						<div class="lianyi ly2" :class='cdCls'>
+							<div :class='ddCls'><div class="mini m2"></div></div>
+						</div>
+						<div class="lianyi ly3" :class='cdCls'>
+							<div :class='ddCls'><div class="mini m3"></div></div>
+						</div>
+						<div class="lianyi ly4" :class='cdCls'>
+							<div :class='ddCls'><div class="mini m4"></div></div>
+						</div>
+						<!-- :class="playIcon?'':'cs3pause'" -->
 						<img :class="[playing ? 'onplay' : 'onplay pause']"  :src="$store.state.playInfo.bgurl" >
 					</div>
 					<div class="geci" ref="geciBox" v-if="!AorB">
@@ -40,7 +49,7 @@
 							@abort="ocAbort"
 							:src="$store.state.audio" id="myAudio" 
 							preload="metadata"
-							controls ></audio>
+							controls autoplay></audio>
 							<!-- autoplay -->
 						</div> 
 						
@@ -66,8 +75,10 @@
 					<div class="nextBtn" @click="NextSong">
 						<div class="ctrlB next"></div>
 					</div>
-					<div class="loopBtn">
-						<div class="ctrlB loop"></div>
+					<div class="loopBtn" @click="setPlay">
+						<div class="ctrlB loop" v-if="playSet==0"></div>
+						<div class="ctrlB loop1" v-if="playSet==1"></div>
+						<div class="ctrlB random" v-if="playSet==2"></div>
 					</div>
 				</div>
 			</div>
@@ -82,7 +93,7 @@
 import BScroll from 'better-scroll'
 import comment from '@/components/comment'
 export default {
-	
+	name:'play',
 	mounted() {
 		this.getData()
 	},
@@ -102,6 +113,7 @@ export default {
 			audio:'',
 			isLike:false,
 			geciTime:'',
+			playSet:0
 			// isEnd:this.$refs.audio.ended
 		}
 	},
@@ -109,16 +121,38 @@ export default {
     // "comment": comment,
 	// },
 	watch:{
-		timeVal:()=>{
-			this.timeVal==this.maxTime&&this.pause()
+		timeVal(){
+			if(this.timeVal>= this.maxTime){
+				if(this.playSet==0){
+					this.NextSong()
+					this.timeVal=0
+				}else if(this.playSet==1){
+					this.timeVal=0
+					// this.$refs.audio.pause()
+					// this.playIcon=false
+				}else{
+
+				}
+				
+			}
 		}
 	},
 	computed:{
 		cdCls(){
 			return this.playing ? 'onplay' : 'onplay pause'
+		},
+		ddCls(){
+			return this.playing ? 'dian' : 'dian pause'
 		}
 	},
 	methods: {
+		setPlay(){
+			switch(this.playSet){
+				case 0:this.playSet=1;break;
+				case 1:this.playSet=2;break;
+				case 2:this.playSet=0;break;
+			}
+		},
 		getData(){
 			// this.showDetail1 = !this.showDetail1
 			// this.musicInfo = JSON.parse(sessionStorage.getItem("playInfo"))
@@ -142,7 +176,7 @@ export default {
 					}
 					this.geci = geci
 				}else{
-					this.geci =[暂无歌词]
+					this.geci =['暂无歌词']
 				}
 
 				this.$nextTick(() => {
@@ -182,13 +216,10 @@ export default {
 		// 控制音频的播放与暂停
 		startPlayOrPause () {
 			this.playIcon ?  this.pause():this.play()
-			// if(this.playIcon) {
-			// 	this.play()
-			// }  else{
-			// 	this.pause() 
-			// }
+			
 			this.playIcon=!this.playIcon
 		},
+
 		// offPlay(){
 		// 	this.showToggle();
 		// },
@@ -203,23 +234,62 @@ export default {
 		// 当音频播放
 		onPlay () {
 			this.playing = true
+			this.$store.state.playing = true
+
 		},
 		// 当音频暂停
 		onPause () {
 			this.playing = false
+			this.$store.state.playing = false
 		},
 		onList(){
 
 		},
 		PreSong(){
-
+			let nowPlayId=this.$store.state.playInfo.id
+			let nextNum = this.$store.state.playInfo.index
+			let A=this.$store.state.songList
+			nextNum>0?--nextNum:nextNum=A.length-1
+			var Artists,Bgurl
+			if(A[nextNum].artists==undefined){
+				Artists=this.$store.state.playInfo.art;
+				Bgurl=A[nextNum].al.picUrl
+			}else{
+				Artists=A[nextNum].artists[0].name;
+				Bgurl=A[nextNum].album.picUrl
+			}
+			var songInfo= {id:A[nextNum].id,name:A[nextNum].name,art:Artists,bgurl:Bgurl,index:nextNum}
+			this.$store.state.playInfo=songInfo
+			this.getMusicUrl()
 		},
 		NextSong(){
-
+			let nowPlayId=this.$store.state.playInfo.id
+			let nextNum = this.$store.state.playInfo.index
+			let A=this.$store.state.songList
+			nextNum<A.length-1?++nextNum:nextNum=0
+			var Artists,Bgurl
+			if(A[nextNum].artists==undefined){
+				Artists=this.$store.state.playInfo.art;
+				Bgurl=A[nextNum].al.picUrl
+			}else{
+				Artists=A[nextNum].artists[0].name;
+				Bgurl=A[nextNum].album.picUrl
+			}
+			
+			var songInfo= {id:A[nextNum].id,name:A[nextNum].name,art:Artists,bgurl:Bgurl,index:nextNum}
+			this.$store.state.playInfo=songInfo
+			this.getMusicUrl()
+		},
+		getMusicUrl(){
+			// 获取歌曲链接
+			this.$axios.get('http://120.79.162.149:3000/music/url?id='+ this.$store.state.playInfo.id)
+      .then(re =>{
+        re.data.code!=200 ?'':this.$store.state.audio=re.data.data[0].url
+      })
 		},
 		onEnded(){
-			console.log('onEnded')
-			this.pause() 
+			alert('播放结束')
+			this.$refs.audio.pause()
 		},
 		ocAbort(){
 			console.log('ocAbort')
@@ -318,6 +388,8 @@ audio{}
 .stop{-webkit-mask-image: url(../assets/img/stop.png);}
 .next{-webkit-mask-image: url(../assets/img/next.png);}
 .loop{-webkit-mask-image: url(../assets/img/loop.png);}
+.loop1{-webkit-mask-image: url(../assets/img/loop1.png);}
+.random{-webkit-mask-image: url(../assets/img/random.png);}
 .playHead{display: flex;width: 100vw;height: 44px;color: #fff;}
 .playInfo{height: 132vw;}
 .palymask{z-index: 910;position: absolute;width: 100vw;height: 100vh;top: 0;left: 0;filter: blur(90px);background-size: cover;background-position: 50% 0;}
@@ -325,6 +397,7 @@ audio{}
 .MBox{background: #f2f3f4;width: 100vw;;height: 100vh;position: fixed;top: 0;z-index: 900;}
 .playbox{z-index: 999;position: fixed;width:100%;top: 0;height:100vh;margin:0 auto;}
 .r-title{text-align:center;font-size:18px;font-weight: bold;line-height: 44px;user-select:none;}
+.r-art{display: flex;align-items: center;margin-left: 10px;}
 .imgbox{width:250px;height:122vw;border-radius:50%;margin: auto;}
 .imgbox img{
 	background:#fffcf5;box-shadow:0px 0px 0px 6px rgba(255, 255, 255, 0.36);
@@ -364,7 +437,7 @@ audio{}
 }
 .geci{width: 100%;height: 122vw;overflow: hidden;}
 .text{line-height: 40px;color: #c7c7c7;font-size: 14px;}
-.video{position: absolute;top: 30px;width: 100%;}
+.video{position: absolute;top: 50px;width: 100%;}
 .current{color: #fff;}
 .geciBox{z-index: 1010;};
 
@@ -381,14 +454,19 @@ audio{}
 
 .onplay{animation: rotate 20s linear infinite;}
 
-.dian{position: absolute;width: 8px;height: 8px;background: red;border-radius: 50%;top: -5px;left: 130px;
-	/* animation: dAnimation 4.6s;
-	-webkit-animation: dAnimation 4.6s infinite linear; */
-	animation: rotate 20s linear infinite;
+.mini{position: absolute;width: 8px;height: 8px;background: #e5efea;border-radius: 50%;top: -5px;left: 130px;}
+.m2{top: 130px;left: 267px;}
+.m3{top: 267px;left: 130px;}
+.m4{top: 130px;left: -5px;}
+
+.dian{position: absolute;width: 270px;height: 270px;
+	animation: dAnimation 4.6s;
+	-webkit-animation: dAnimation 4.6s infinite linear;
+	animation: rotate 18s linear infinite;
 }
 .lianyi{width: 270px;height: 270px;border: 2px solid #e5efea;border-radius: 50%;position: absolute;
- animation: myfirst 4.6s;
-  -webkit-animation: myfirst 4.6s infinite linear;
+ animation: myfirst 4.8s;
+  -webkit-animation: myfirst 4.8s infinite linear;
 }
 .ly2{width: 270px !important;height: 270px !important;animation-delay:1.2s;-webkit-animation-delay:1.2s; /* Safari 和 Chrome */}
 .ly3{width: 270px !important;height: 270px !important;animation-delay:2.4s;-webkit-animation-delay:2.4s; /* Safari 和 Chrome */}
@@ -426,26 +504,38 @@ audio{}
   }
 }
 @keyframes dAnimation {
-  0% {
-    
-	opacity: 1
+  from {
+    -webkit-transform-origin: 50% 1000%;
+    transform-origin: 50% 1000%;
+    -webkit-transform: rotate3d(0, 0, 1, -45deg);
+    transform: rotate3d(0, 0, 1, -45deg);
+    opacity: 1;
   }
 
-  100% {
-    
-	opacity: 0
+  to {
+    -webkit-transform-origin: 50% 1000%;
+    transform-origin: 50% 1000%;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
   }
 }
 
 @-webkit-keyframes dAnimation {
-  0% {
-    
-	opacity: 1
+  from {
+    -webkit-transform-origin: 50% 1000%;
+    transform-origin: 50% 1000%;
+    -webkit-transform: rotate3d(0, 0, 1, -45deg);
+    transform: rotate3d(0, 0, 1, -45deg);
+    opacity: 1;
   }
 
-  100% {
-    
-	opacity: 0;
+  to {
+    -webkit-transform-origin: 50% 1000%;
+    transform-origin: 50% 1000%;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
   }
 }
 

@@ -39,7 +39,7 @@
 							<div class="collection"><i class="el-icon-plus"></i>收藏({{songList.subscribedCount}})</div>
 						</div>
 						<div class="song-list-box">
-							<div class="cell-song" v-for="(item,index) of songList.tracks" :key="index" :id="item.id" @click="playSong(item.id,item.name,item.artists[0].name,item.album.blurPicUrl)">
+							<div class="cell-song" v-for="(item,index) of songList.tracks" :key="index" :id="item.id" @click="playSong(item.id,item.name,item.artists[0].name,item.album.blurPicUrl,index)">
 								<div class="songindex">{{index+1}}</div>
 								<div class="songInfo">
 									<div class="songName">{{item.name}}</div>
@@ -83,11 +83,13 @@ export default {
 	},
     methods:{
     	getData:function(){
-    		var that =this;
+				var that = this
 			if(this.song!= undefined&&this.song!=null&&this.song!=''){
 				this.$axios.get('http://120.79.162.149:3000/playlist/detail?id='+ this.song)
 				.then(re =>{
 					this.songList=re.data.result
+					that.$store.state.songList=re.data.result.tracks
+					console.log(that.$store.state.songList[1])
 					this.btScroll();
 					this.$nextTick(() => {
 						//$refs绑定元素
@@ -104,8 +106,8 @@ export default {
 						}
 					})
 				})
+				
 			}
-			// console.log(this.detailWrapper+"  this")
 		},
 		sollorder(){
 			this.detailWrapper = new BScroll(this.$refs.gedan, {

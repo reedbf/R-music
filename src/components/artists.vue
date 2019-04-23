@@ -21,7 +21,7 @@
 							<div class="collection"><i class="el-icon-plus"></i>收藏</div>
 						</div>
 						<div class="song-list-box"> <!-- ,item.artists[0].name,item.album.blurPicUrl -->
-							<div class="cell-song" v-for="(item,index) of songList" :key="index" @click="playSong(item.id,item.name)">
+							<div class="cell-song" v-for="(item,index) of songList" :key="index" @click="playSong(item.id,item.name,artists.name,item.al.picUrl,index)">
 								<div class="songindex">{{index+1}}</div>
 								<div class="songInfo">
 									<div class="songName">{{item.name}}</div>
@@ -68,11 +68,11 @@ export default {
 		},
     methods:{
     	getData:function(){
-    		// var Id= this.$route.query.id
-				// var this = this
+				var that = this
 				this.$axios.get('http://120.79.162.149:3000/artists?id='+ this.pass)
 				.then(re =>{
-					 	this.songList=re.data.hotSongs,
+						this.songList=re.data.hotSongs
+						that.$store.state.songList=re.data.hotSongs
 						this.artists= re.data.artist
 						this.btScroll()
 				})

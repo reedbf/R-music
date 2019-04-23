@@ -8,7 +8,10 @@ const state={//要设置的全局访问的state对象
     cPage:false,
     songInfo:'',
     playInfo:{}, // id:'',name:'',bgurl:'',audio:''
-    audio:''
+    audio:'',
+    playing:false,
+    zColor:'',
+    songList:[],
     
   };
 const getters = {   //实时监听state值的变化(最新状态)

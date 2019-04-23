@@ -3,7 +3,7 @@
 		<div  class="recommend_content" ref="Mbox">
 			<div class="recommend-cont" >
 				<div class="hoom1box">
-					<div class="swiperBg"></div>
+					<div class="swiperBg" :style="{background:$store.state.zColor}"></div>
 					<swiper :options="swiperOption">
 						<swiper-slide  v-for="(item,index) of dataList" :key="index">
 							<img class="lunbo" :src="item.picUrl"/>
@@ -112,7 +112,7 @@ export default {
 
 
 .hoom1box{position: relative;}
-.swiperBg{width: 100%;height: 100px;background: #ffb5b0;position: absolute;border-top: 1px solid #ffb5b0;}
+.swiperBg{width: 100%;height: 100px;position: absolute;}
 .swiper-pagination-bullet-active {opacity: 1;background: #fd6c62;}
 .Tright-ctrl{width: 44px;height: 44px;display: flex;align-items: center;justify-content: center;color: black;float: right;font-size: 18px;}
 .songListInfo{display: flex;padding: 54px 18px 0;color: #fff;}

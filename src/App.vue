@@ -4,14 +4,15 @@
     <app-tab></app-tab>
     <router-view @playSong='playSong' class="child-view" :pass="songId"></router-view>
     
-    <play :pass="songId" v-if="$store.state.pPage" ref="playPage"></play>
-    <div class="bottomBox" v-if="$store.state.playInfo" @click="playMusic()">
+    <play :pass="songId" v-show="$store.state.pPage" ref="playPage"></play>
+    <div class="bottomBox" v-if="$store.state.audio" @click="playMusic()" ref="playPage">
       <img class="BBbg" :src="$store.state.playInfo.bgurl" alt="">
       <div class="BBinfo">
         <div>{{$store.state.playInfo.name}}</div>
         <p>{{$store.state.playInfo.art}}</p>
       </div>
-      <i class="fa fa-play-circle BBbtn flex"></i>
+      <i class="fa fa-play BBbtn flex" @click.stop="playCtrl" v-if="!$store.state.playing"></i>
+      <i class="fa fa-pause BBbtn flex" @click.stop="playCtrl" v-if="$store.state.playing"></i>
       <i class="fa fa-headphones BBbtn flex"></i>
     </div>
     
@@ -40,15 +41,8 @@ export default {
       this.playInfo = JSON.parse(sessionStorage.getItem("playInfo"))
     }
     console.log(this.$store.state.playInfo+'0001')
-    // console.log(this.playInfo)
+    sessionStorage.getItem('themeColor')==null?this.$store.state.zColor='#ffb5b0':this.$store.state.zColor=sessionStorage.getItem('themeColor')
     
-    // this.$nextTick(() => {
-    //   if (!this.detailWrapper) {
-    //     this.sollorder();
-    //   } else {
-    //     this.detailWrapper.refresh();
-    //   }
-    // });
   },
   // watch(){
   //   playInfo(){
@@ -73,7 +67,10 @@ export default {
   	playMusic(){
       this.$store.commit('togglePlay')
       
-		}
+    },
+    playCtrl(){
+      this.$refs.playPage.startPlayOrPause();
+    }
 	}
   
 }

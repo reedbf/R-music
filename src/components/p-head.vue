@@ -1,6 +1,7 @@
 <template>
   <div class="recommend_content" id="pHead" ref="pHead">
-    <div class="homeTabbar">
+    <div class="homeTabbar" :style="{background:$store.state.zColor}">
+      <!-- ;border-bottom:1px solid $store.state.zColor -->
       <div class="m-head">
         <div class="m-h-btn" @click="geto('menu')">
           <i class="fa fa-bars"></i>
@@ -12,7 +13,7 @@
           <div @click="topChange('home')" class="m-h-btn" :class="[add1=='home'?'add1Active':'']" id="1" >
             <i class="fa fa-star"></i>
           </div>
-          <div @click="topChange('ccv')" class="m-h-btn" :class="[add1=='ccv'?'add1Active':'']" id="3" >
+          <div @click="topChange('video')" class="m-h-btn" :class="[add1=='video'?'add1Active':'']" id="3" >
             <i class="fa fa-video-camera"></i>
           </div>
         </div>
@@ -92,10 +93,9 @@ export default {
 };
 </script>
 <style scoped>
-.homeTabbar {
-  background: #ffb5b0;
+/* .homeTabbar {
   border-bottom: 1px solid #ffb5b0;
-}
+} */
 .c-hui {
   color: #a7a7a7;
 }
