@@ -1,5 +1,5 @@
 <template>
-  <div class="comment">
+  <div class="comment" >
     <div class="playHead">
         <div class="back" @click="openComment()"><i class="el-icon-back"></i></div>
         <div class="r-title">评论</div>
@@ -42,7 +42,11 @@ export default {
     return {
       comments:[],
       pullUpLoad: true,
-  }
+      pullDownRefresh: true,
+      pullUpLoad: true,
+      pullDownRefreshThreshold: 90,
+      pullDownRefreshStop: 40,
+    }
   
   
   },
@@ -89,6 +93,18 @@ export default {
           threshold: parseInt(this.pullUpLoadThreshold),
           txt: {more: this.pullUpLoadMoreTxt, noMore: this.pullUpLoadNoMoreTxt}
         } : false
+      },
+      pullDownRefreshObj: function () {
+        return this.pullDownRefresh ? {
+          threshold: parseInt(this.pullDownRefreshThreshold),
+          stop: parseInt(this.pullDownRefreshStop)
+        } : false
+      },
+      pullUpLoadObj: function () {
+        return this.pullUpLoad ? {
+          threshold: parseInt(this.pullUpLoadThreshold),
+          txt: {more: this.pullUpLoadMoreTxt, noMore: this.pullUpLoadNoMoreTxt}
+        } : false
       }
     },
     
@@ -113,6 +129,7 @@ export default {
               stop: 20 // 回弹停留在距离顶部20px的位置
             }
         })
+        
         console.log(this.scroll)
         }else if(!this.$refs.comment){
           return
@@ -167,8 +184,8 @@ export default {
 }
 </script>
 <style scoped>
-.xBox{overflow: hidden;height: 100vh;margin-top: 44px;}
-.comment{width: 100vw;height: 100vh;position: fixed;top: 0;background: #fff;z-index: 1200;}
+.xBox{overflow: hidden;height: calc(100vh - 44px);margin-top: 44px;}
+.comment{width: 100vw;height: 100vh;position: fixed;top: 0;background: #fafafa;z-index: 1200;}
 .playHead{color: black;display: flex;height: 44px;width: 100%;position: fixed;top: 0;background: #fff;}
 .back{color: black;}
 .r-title{height: 100%;display: flex;align-items: center;justify-content: center;}

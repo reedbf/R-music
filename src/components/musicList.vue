@@ -22,7 +22,7 @@
 						<div class="songListName">
 							<div class="SLN-top">{{songList.name}}</div>
 							<div class="SLN-bot">
-									<img :src="songList.creator.avatarUrl" alt="">
+									<img :src="songList.creator.avatarUrl" alt="" v-if="songList.creator.avatarUrl" >
 									<div>{{songList.creator.nickname}}<i class="el-icon-arrow-right"></i></div>
 							</div>
 						</div>
@@ -89,7 +89,6 @@ export default {
 				.then(re =>{
 					this.songList=re.data.result
 					that.$store.state.songList=re.data.result.tracks
-					console.log(that.$store.state.songList[1])
 					this.btScroll();
 					this.$nextTick(() => {
 						//$refs绑定元素

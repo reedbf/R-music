@@ -11,7 +11,13 @@
 						<div class="swiper-pagination"  slot="pagination"></div>
 					</swiper>
 				</div>
-				
+				<div class="homeNav">
+					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
+					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
+					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
+					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
+
+				</div>
 				<div class="m-body">
 					<a class="m-title" href="">推荐歌单<i class="fa fa-angle-right fa-2x"></i></a>
 					<div class="cellMusic" v-for="(item,index) of recommendList" :key="index"  @click="openSongList(item.id)" :id="item.id">
@@ -58,7 +64,8 @@ export default {
 					}
 				},
 				songCont:'',
-				playSong:''
+				playSong:'',
+				nowDete:''
 			}
 	},
 	components:{
@@ -66,7 +73,10 @@ export default {
     },
     methods:{
     	getData:function(){
-			
+			let D = new Date()
+			this.nowDate=D.getDate()
+
+
 			this.$axios.get('http://120.79.162.149:3000/banner')
 			.then(re =>{
 				this.dataList=re.data.banners
@@ -111,7 +121,7 @@ export default {
 
 
 
-.hoom1box{position: relative;}
+.hoom1box{position: relative;min-height: 130px;}
 .swiperBg{width: 100%;height: 100px;position: absolute;}
 .swiper-pagination-bullet-active {opacity: 1;background: #fd6c62;}
 .Tright-ctrl{width: 44px;height: 44px;display: flex;align-items: center;justify-content: center;color: black;float: right;font-size: 18px;}
@@ -130,4 +140,7 @@ export default {
 
 .recommend_content{width: 100%;height:calc(100% - 88px);overflow: hidden;}
 #Mbox{height: 100%;}
+.homeNav{width: 100vw;height: 20vw;;display: flex;align-items: center;justify-content: space-around;}
+.navBtn{width: 18vw;height: 18vw;border-radius: 50%;padding: 0 ;margin: 0;box-shadow: 0 0 5px #fff;position: relative;}
+.nowDate{position: absolute;top: 30px;color: #fff;}
 </style>

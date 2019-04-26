@@ -13,7 +13,7 @@
       </div>
       <i class="fa fa-play BBbtn flex" @click.stop="playCtrl" v-if="!$store.state.playing"></i>
       <i class="fa fa-pause BBbtn flex" @click.stop="playCtrl" v-if="$store.state.playing"></i>
-      <i class="fa fa-headphones BBbtn flex"></i>
+      <i class="fa fa-step-forward BBbtn flex" @click.stop='nextPlay'></i>
     </div>
     
   </div>
@@ -40,7 +40,6 @@ export default {
     if(ex !== 'undefined' && ex !== null){
       this.playInfo = JSON.parse(sessionStorage.getItem("playInfo"))
     }
-    console.log(this.$store.state.playInfo+'0001')
     sessionStorage.getItem('themeColor')==null?this.$store.state.zColor='#ffb5b0':this.$store.state.zColor=sessionStorage.getItem('themeColor')
     
   },
@@ -70,6 +69,9 @@ export default {
     },
     playCtrl(){
       this.$refs.playPage.startPlayOrPause();
+    },
+    nextPlay(){
+      this.$refs.playPage.NextSong();
     }
 	}
   

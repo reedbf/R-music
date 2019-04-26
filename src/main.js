@@ -121,7 +121,7 @@ Vue.prototype.playSong=function(q,w,e,r,index){
 }
 Vue.prototype.openComment=function(){
   this.$store.commit('toggleC')
-  
+  this.$refs.comment.getData()
 }
 Vue.prototype.playAll=function(e){
     let Num = e.length

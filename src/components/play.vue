@@ -59,11 +59,13 @@
 				<div class="miniCtrl">
 					<i @click="toggleLike()" class="fa fa-heart-o BBbtn flex" v-if="!isLike"></i>
 					<i @click="toggleLike()" class="fa fa-heart BBbtn flex cRed" v-if="isLike"></i>
-      				<i @click="openComment()" class="fa fa-commenting-o BBbtn flex"></i>
+      		<i @click="openComment()" class="fa fa-commenting-o BBbtn flex"></i>
 				</div>
 				<div class="ctrlbox">
-					<div class="listBtn" @click="onList">
-						<div class="ctrlB list" ></div>
+					<div class="loopBtn" @click="setPlay">
+						<div class="ctrlB loop" v-if="playSet==0"></div>
+						<div class="ctrlB loop1" v-if="playSet==1"></div>
+						<div class="ctrlB random" v-if="playSet==2"></div>
 					</div>
 					<div class="beforeBtn" @click="PreSong">
 						<div class="ctrlB before"></div>
@@ -75,16 +77,28 @@
 					<div class="nextBtn" @click="NextSong">
 						<div class="ctrlB next"></div>
 					</div>
-					<div class="loopBtn" @click="setPlay">
-						<div class="ctrlB loop" v-if="playSet==0"></div>
-						<div class="ctrlB loop1" v-if="playSet==1"></div>
-						<div class="ctrlB random" v-if="playSet==2"></div>
+					<div class="listBtn" @click="miniMusicList= !miniMusicList">
+						<div class="ctrlB list" ></div>
 					</div>
 				</div>
 			</div>
 			<div class="palymask" v-bind:style="{backgroundImage:'url('+ $store.state.playInfo.bgurl +')'}"></div>
 			<div class="blackmask" v-if="!AorB"></div>
-			<comment v-show="$store.state.cPage"></comment>
+			<comment ref='comment' v-show="$store.state.cPage"></comment>
+			<transition  name='Mask' >
+				<div class="Mask" @click="miniMusicList=!miniMusicList" v-show="miniMusicList">
+					<div class="miniMusicList">
+						<div class="miniCtrl-m"></div>
+						<div class="musicListBox">
+							<div class="cellMusic" v-for="(item,index) of $store.state.songList" :key="index">
+								<div class="flex">{{item.name}}<p class="art">{{item.artists[0].name}}</p></div>
+								<i class="delMusic flex el-icon-close " @click.stop="delMusic(index)"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</transition>
+			
 		</div>
 	</transition>
 </template>
@@ -113,21 +127,24 @@ export default {
 			audio:'',
 			isLike:false,
 			geciTime:'',
-			playSet:0
+			playSet:0,
+			miniMusicList:false,
 			// isEnd:this.$refs.audio.ended
 		}
 	},
-	// components: {
-    // "comment": comment,
-	// },
+	components: {
+    "comment": comment,
+	},
 	watch:{
 		timeVal(){
 			if(this.timeVal>= this.maxTime){
-				if(this.playSet==0){
+				if(this.playSet==0||this.playSet==2){
 					this.NextSong()
 					this.timeVal=0
+					console.log("下一首")
 				}else if(this.playSet==1){
 					this.timeVal=0
+					console.log("循环播放")
 					// this.$refs.audio.pause()
 					// this.playIcon=false
 				}else{
@@ -149,9 +166,28 @@ export default {
 		setPlay(){
 			switch(this.playSet){
 				case 0:this.playSet=1;break;
-				case 1:this.playSet=2;break;
+				case 1:this.playSet=2;
+							let A = this.$store.state.songList;
+							this.$store.state.songList=this.shuffle(A);
+							break;
 				case 2:this.playSet=0;break;
 			}
+		},
+		//数组打乱，随机播放改变歌单
+		shuffle(array) {
+			var m = array.length,
+						t, i;
+			while(m) {
+					i = Math.floor(Math.random() * m--);
+					t = array[m];
+					array[m] = array[i];
+					array[i] = t;
+			}
+			console.log('change'+array)
+			return array;
+		},
+		delMusic(e){
+			this.$store.state.songList.splice(e,1)
 		},
 		getData(){
 			// this.showDetail1 = !this.showDetail1
@@ -242,11 +278,8 @@ export default {
 			this.playing = false
 			this.$store.state.playing = false
 		},
-		onList(){
-
-		},
 		PreSong(){
-			let nowPlayId=this.$store.state.playInfo.id
+			// let nowPlayId=this.$store.state.playInfo.id
 			let nextNum = this.$store.state.playInfo.index
 			let A=this.$store.state.songList
 			nextNum>0?--nextNum:nextNum=A.length-1
@@ -263,7 +296,7 @@ export default {
 			this.getMusicUrl()
 		},
 		NextSong(){
-			let nowPlayId=this.$store.state.playInfo.id
+			// let nowPlayId=this.$store.state.playInfo.id
 			let nextNum = this.$store.state.playInfo.index
 			let A=this.$store.state.songList
 			nextNum<A.length-1?++nextNum:nextNum=0
@@ -285,7 +318,8 @@ export default {
 			this.$axios.get('http://120.79.162.149:3000/music/url?id='+ this.$store.state.playInfo.id)
       .then(re =>{
         re.data.code!=200 ?'':this.$store.state.audio=re.data.data[0].url
-      })
+			})
+			this.getData()
 		},
 		onEnded(){
 			alert('播放结束')
@@ -330,7 +364,7 @@ export default {
 		// 当加载语音流元数据完成后，会触发该事件的回调函数
 		// 语音元数据主要是语音的长度之类的数据
 		onLoadedmetadata(res) {
-			console.log(res)
+			// console.log(res)
 			this.maxTime = parseInt(res.target.duration)
 			this.duration = this.realFormatSecond(this.maxTime)
 		},
@@ -369,7 +403,8 @@ export const ease = {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
+/*  */
+.fade-enter-active, .fade-leave-active ,.Mask-enter-active,.Mask-leave-active{
 	transition: all 0.2s ease;
 	transform:translate3d(0,0,0);
 }
@@ -471,6 +506,19 @@ audio{}
 .ly2{width: 270px !important;height: 270px !important;animation-delay:1.2s;-webkit-animation-delay:1.2s; /* Safari 和 Chrome */}
 .ly3{width: 270px !important;height: 270px !important;animation-delay:2.4s;-webkit-animation-delay:2.4s; /* Safari 和 Chrome */}
 .ly4{width: 270px !important;height: 270px !important;animation-delay:3.6s;-webkit-animation-delay:3.6s; /* Safari 和 Chrome */}
+
+.miniMusicList{width: 100vw;height: 55vh;background: #fff;border-radius: 10px 10px 0 0 ;position: fixed;bottom: 0;margin: 0;padding: 0;}
+.Mask{position: fixed;background: rgba(0, 0, 0, 0.26);width: 100vw;height: 100vh;top: 0;left: 0;z-index: 999;}
+.cellMusic,.miniCtrl-m{display: flex;align-items: center;justify-content: space-between;width: calc(100% - 16px);height: 36px;line-height: 36px;padding: 0 3px 0 10px;}
+.art{margin-left: 10px;}
+.delMusic{width: 36px;height: 36px;}
+
+
+
+
+
+
+
 
 @keyframes myfirst {
   0% {
