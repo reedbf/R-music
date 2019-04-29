@@ -40,16 +40,16 @@
 							</div>
 						</div>
 						<div class="video">
-			 			<audio ref="audio"  
-							@pause="onPause" 
-							@play="onPlay" 
-							@timeupdate="onTimeupdate" 
-							@loadedmetadata="onLoadedmetadata"
-							@ended="onEnded"
-							@abort="ocAbort"
-							:src="$store.state.audio" id="myAudio" 
-							preload="metadata"
-							controls autoplay></audio>
+							<audio ref="audio"  
+								@pause="onPause" 
+								@play="onPlay" 
+								@timeupdate="onTimeupdate" 
+								@loadedmetadata="onLoadedmetadata"
+								@ended="onEnded"
+								@abort="ocAbort"
+								:src="$store.state.audio" id="myAudio" 
+								preload="metadata"
+								controls autoplay></audio>
 							<!-- autoplay -->
 						</div> 
 						
@@ -468,7 +468,7 @@ audio{}
 .mask{width:100%;height:100%;background-color:rgba(0,0,0,0.53);z-index:800;position:fixed;top:0}
 .JDT .el-slider__runway{margin: 6px 0 !important;}
 .miniCtrl{
-	height:44px;padding:0;text-align:center;display:flex;justify-content:center;align-items:center
+	height:44px;padding:0;text-align:center;display:flex;justify-content:center;align-items:center;color: #fff;
 }
 .geci{width: 100%;height: 122vw;overflow: hidden;}
 .text{line-height: 40px;color: #c7c7c7;font-size: 14px;}
