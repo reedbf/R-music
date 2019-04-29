@@ -1,7 +1,7 @@
 <template>
   <transition id="menu" name="fade"  class="wrapper">
     <div class="menu"  v-show="showDetail">
-      <div class="menuMask"  @click="showToggle(1)"></div>
+      <div class="menuMask"  @click="showToggle(1)" ></div>
       <div class="leftMenu" >
           <div class="" v-if="login">
               <p>登入后手机电脑多端同步，尽享海量高品质音乐</p>
@@ -22,7 +22,6 @@
                 {{item.name}}
               </div>
             </div>
-            
             <div class="colorShow">
               <div class="cellColor flex" v-for="(item,index) in cBox" @click="setColor(item)" :key="index" :style='{background:item}'>
                 <i class="fa fa-star" v-if="item==$store.state.zColor"></i>
@@ -61,7 +60,7 @@ export default {
         {name:'我的好友',icon:'fa-user-o'},
         {name:'皮肤商城',icon:'fa-tint'},
         {name:'听歌识曲',icon:'fa-microphone'},
-        {name:'主题设置',icon:''}
+        {name:'主题设置',icon:'fa-paint-brush'}
         ],
       cBox:['#ffb5b0','#49c6ff','#7cdfc7','#f8e089','#ffb13f'],
       showDetail:false,
@@ -99,6 +98,17 @@ export default {
   }
 }
 </script>
+// I’ve been spending way too long
+// Checking my tongue in the mirror
+// And bending over backwards
+// Just to try to see it clearer
+// But my breath fogged up the glass
+// And so I drew a new face and I laughed
+// I guess what I’m be saying is
+// There ain’t no better reason
+// To rid yourself of vanities
+// And just go with the seasons
+// It’s what we aim to do
 <style scoped>
 .fade-enter-active, .fade-leave-active {
 	transition: all 0.2s ease;

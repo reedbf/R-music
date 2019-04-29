@@ -77,18 +77,18 @@ export default {
         that.allList=re.data.playlist
       })
       this.$nextTick(() => {
-					//$refs绑定元素
-					if(!this.scroll){
-						this.scroll = new BScroll(this.$refs.Mbox, {
-						click:true   //开启点击事件 默认为false
-					})
-					console.log(this.scroll)
-					}else if(!this.$refs.Mbox){
-						return
-					}
-					else{
-						this.scroll.refresh()
-					}
+        //$refs绑定元素
+        if(!this.scroll){
+          this.scroll = new BScroll(this.$refs.Mbox, {
+          click:true   //开启点击事件 默认为false
+        })
+        console.log(this.scroll)
+        }else if(!this.$refs.Mbox){
+          return
+        }
+        else{
+          this.scroll.refresh()
+        }
       })
 
     }

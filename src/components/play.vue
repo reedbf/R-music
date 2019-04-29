@@ -9,7 +9,7 @@
 				</div>
 				<div class="playInfo" @click="getGeci">
 					<div class="imgbox flex" v-if="AorB">
-						<div class="lianyi" :class='cdCls'>
+						<!-- <div class="lianyi" :class='cdCls'>
 							<div :class='ddCls'><div class="mini"></div></div>
 						</div>
 						<div class="lianyi ly2" :class='cdCls'>
@@ -17,7 +17,7 @@
 						</div>
 						<div class="lianyi ly3" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m3"></div></div>
-						</div>
+						</div> -->
 						<div class="lianyi ly4" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m4"></div></div>
 						</div>
@@ -110,6 +110,7 @@ export default {
 	name:'play',
 	mounted() {
 		this.getData()
+		this.yuanFX
 	},
 	data() {
 		return {
@@ -129,6 +130,7 @@ export default {
 			geciTime:'',
 			playSet:0,
 			miniMusicList:false,
+			xx1:0,
 			// isEnd:this.$refs.audio.ended
 		}
 	},
@@ -175,8 +177,7 @@ export default {
 		},
 		//数组打乱，随机播放改变歌单
 		shuffle(array) {
-			var m = array.length,
-						t, i;
+			var m = array.length,	t, i;
 			while(m) {
 					i = Math.floor(Math.random() * m--);
 					t = array[m];
@@ -185,6 +186,17 @@ export default {
 			}
 			console.log('change'+array)
 			return array;
+		},
+		dinX(){
+			let x =Math.floor(Math.random()*272)-5
+			this.xx1 =x
+			return x
+		},
+		yuanFX(x){
+			//(x-131)**2+(y+131)**2=136**2
+			let y =Math.sqrt(Math.abs(136**2-(x-131)**2))-131
+			// console.log(x+','+y)
+			return y
 		},
 		delMusic(e){
 			this.$store.state.songList.splice(e,1)
