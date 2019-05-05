@@ -109,6 +109,7 @@ export default {
 // To rid yourself of vanities
 // And just go with the seasons
 // It’s what we aim to do
+
 <style scoped>
 .fade-enter-active, .fade-leave-active {
 	transition: all 0.2s ease;
