@@ -98,17 +98,6 @@ export default {
   }
 }
 </script>
-// I’ve been spending way too long
-// Checking my tongue in the mirror
-// And bending over backwards
-// Just to try to see it clearer
-// But my breath fogged up the glass
-// And so I drew a new face and I laughed
-// I guess what I’m be saying is
-// There ain’t no better reason
-// To rid yourself of vanities
-// And just go with the seasons
-// It’s what we aim to do
 
 <style scoped>
 .fade-enter-active, .fade-leave-active {
