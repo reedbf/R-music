@@ -143,4 +143,5 @@ export default {
 .homeNav{width: 100vw;height: 20vw;;display: flex;align-items: center;justify-content: space-around;}
 .navBtn{width: 18vw;height: 18vw;border-radius: 50%;padding: 0 ;margin: 0;box-shadow: 0 0 5px #fff;position: relative;}
 .nowDate{position: absolute;top: 30px;color: #fff;}
+.ccccc{margin: 0 0 4px 4px;}
 </style>

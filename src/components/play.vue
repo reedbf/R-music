@@ -425,7 +425,7 @@ export const ease = {
 	transform:translate3d(0,100%,0);
 	opacity: 0;
 }
-audio{}
+audio{opacity: .1;}
 /* opacity: .2; */
 .cRed{color: #ffb5b0;}
 .ctrlB{background: #ffb5b0;width:48px;height:48px;}
