@@ -169,9 +169,9 @@ export default {
 			switch(this.playSet){
 				case 0:this.playSet=1;break;
 				case 1:this.playSet=2;
-							let A = this.$store.state.songList;
-							this.$store.state.songList=this.shuffle(A);
-							break;
+						let A = this.$store.state.songList;
+						this.$store.state.songList=this.shuffle(A);
+						break;
 				case 2:this.playSet=0;break;
 			}
 		},

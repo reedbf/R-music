@@ -12,7 +12,6 @@ const state={//要设置的全局访问的state对象
     playing:false,
     zColor:'',
     songList:[],
-    
   };
 const getters = {   //实时监听state值的变化(最新状态)
     isShow(state) {  //方法名随意,主要是来承载变化的showFooter的值
@@ -39,6 +38,4 @@ const store = new Vuex.Store({
        getters,
        mutations
 });
-
-
 export default store;
