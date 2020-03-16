@@ -12,10 +12,11 @@
 					</swiper>
 				</div>
 				<div class="homeNav">
-					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
-					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
-					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
-					<dir class="navBtn flex" :style="{background:$store.state.zColor}" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" alt=""><p class="nowDate">{{nowDate}}</p></dir>
+					<dir class="navBtn flex" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" :style="{background:$store.state.zColor}" alt=""><p class="nowDate">每日推荐</p></dir>
+					<dir class="navBtn flex" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" :style="{background:$store.state.zColor}" alt=""><p class="nowDate">电台</p></dir>
+					<dir class="navBtn flex" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" :style="{background:$store.state.zColor}"  alt=""><p class="nowDate">私人FM</p></dir>
+					<dir class="navBtn flex" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" :style="{background:$store.state.zColor}"  alt=""><p class="nowDate">排行榜</p></dir>
+					<dir class="navBtn flex" @click="geto('everydayDaily')"><img src="../assets/img/rt.png" :style="{background:$store.state.zColor}"  alt=""><p class="nowDate">{{nowDate}}</p></dir>
 
 				</div>
 				<div class="m-body">
@@ -54,6 +55,7 @@ export default {
 				dataList:[],
 				recommendList:[],
 				songList:[],
+				menuList:['每日推荐','歌单','排行榜','电台','私人FM'],
 				swiperOption: {
 					pagination:{
 						el:'.swiper-pagination'
@@ -140,8 +142,10 @@ export default {
 
 .recommend_content{width: 100%;height:calc(100% - 88px);overflow: hidden;}
 #Mbox{height: 100%;}
-.homeNav{width: 100vw;height: 20vw;;display: flex;align-items: center;justify-content: space-around;}
-.navBtn{width: 18vw;height: 18vw;border-radius: 50%;padding: 0 ;margin: 0;box-shadow: 0 0 5px #fff;position: relative;}
-.nowDate{position: absolute;top: 30px;color: #fff;}
+.homeNav{width: 100vw;display: flex;align-items: center;justify-content: space-around;}
+.navBtn{width: 14vw;height: 14vw;padding: 0 ;margin: 10px 0 20px 0;position: relative;}
+.navBtn>img{width: 60%;border-radius: 50%;box-shadow: 0 0 5px #fff;padding: 6px;}
+.nowDate{position: absolute;top: 56px;color: rgb(56, 56, 56);font-size: 12px;}
 .ccccc{margin: 0 0 4px 4px;}
+/* background-image: linear-gradient(120deg, #ff5a4c 0%, #ff1d11 100%); */
 </style>

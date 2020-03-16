@@ -56,13 +56,13 @@ export default {
         {name:'会员中心',icon:'fa-android'},
         {name:'村村有票',icon:'fa-ticket'},
         {name:'商城'    ,icon:'fa-shopping-cart'},
-        {name:'游戏'    ,icon:'fa-gamepad'},
+        {name:'game center'    ,icon:'fa-gamepad'},
         {name:'我的好友',icon:'fa-user-o'},
         {name:'皮肤商城',icon:'fa-tint'},
         {name:'听歌识曲',icon:'fa-microphone'},
         {name:'主题设置',icon:'fa-paint-brush'}
         ],
-      cBox:['#ffb5b0','#49c6ff','#7cdfc7','#f8e089','#ffb13f'],
+      cBox:['#ff3e34','#ffb5b0','#49c6ff','#7cdfc7','#f8e089','#ffb13f'],
       showDetail:false,
     }
   },

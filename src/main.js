@@ -138,6 +138,12 @@ Vue.directive('focus', {
   }
 })
 
+if(module.hot){
+  // module.hot.accept('./number.js',()=>{
+  //     document.body.removeChild(document.getElementById('number'));
+  //     number();
+  // })
+}
 
 
 // Vue.prototype.handleScroll= function (e) {

@@ -39,7 +39,8 @@
 								<div class="timeshow">{{duration}}</div>
 							</div>
 						</div>
-						<div class="video">
+					</div>
+					<div class="video">
 							<audio ref="audio"  
 								@pause="onPause" 
 								@play="onPlay" 
@@ -51,9 +52,8 @@
 								preload="metadata"
 								controls autoplay></audio>
 							<!-- autoplay -->
+							<audio data-v-42381944="" style="opacity: 1;" id="myAudio" preload="metadata" controls="controls" autoplay="autoplay" src="http://m10.music.126.net/20200314155348/c64bb905907ef12227e022350ff3aa79/ymusic/7e4e/5603/665c/e7fa3d7af4dad1df939b033412e83128.mp3"></audio>
 						</div> 
-						
-					</div>
 					
 				</div>
 				<div class="miniCtrl">
@@ -225,6 +225,7 @@ export default {
 					this.geci = geci
 				}else{
 					this.geci =['暂无歌词']
+					console.log('暂无歌词')
 				}
 
 				this.$nextTick(() => {
@@ -242,14 +243,16 @@ export default {
 					}
 				})
 			})
-			this.btScroll();
+			// this.btScroll();
 			}
 			
 		},
 		toggleLike(){  
 			this.$axios.get('http://120.79.162.149:3000/like?id=' + this.$store.state.playInfo.id +'&like='+ !this.isLike)
 			.then(re=>{
-				this.isLike=!this.isLike
+				consloe.log(this.isLike)
+				// var that = this
+				// that.isLike=!that.isLike
 			})
 		},
 		getGeci(){
