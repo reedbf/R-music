@@ -2,20 +2,12 @@
   <transition>
     <div class="maxBox" ref="Mbox">
       <div class="videoP">
-        <!-- <div class="cellVidio" v-for="(item,index) of vidioA" :key="index">
+        <div class="cellVidio" v-for="(item,index) of vidioA" :key="index">
           <video class="videoC" :src="item.url"></video>
           <p class="videoName">{{item.name}}</p>
-        </div> -->
+        </div>
       </div>
-      <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
-
-      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-        <span>这是一段信息</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
-      </el-dialog>
+      
     </div>
   </transition>
 </template>
@@ -72,11 +64,11 @@ export default {
   },
   methods: {
     getData: function() {
-      // this.$axios.get('http://120.79.162.149:3000/personalized/privatecontent')
-      // .then(re=>{
-      //   this.bigData = re
-      //   alert (this.bigData)
-      // })
+      this.$axios.get('http://120.79.162.149:3000/video/url?id=89ADDE33C0AAE8EC14B99F6750DB954D')
+      .then(re=>{
+        this.bigData = re
+        console.log(this.bigData)
+      })
       // (function(doc, win) {
       //   var resizeEvt =
       //       "orientationchange" in window ? "orientationchange" : "resize",
@@ -113,13 +105,6 @@ export default {
         click: true //开启点击事件 默认为false
       });
     },
-    handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
   }
 };
 </script>

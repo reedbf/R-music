@@ -1,5 +1,5 @@
 <template>
-	<div id="Mbox">
+	<div id="Mbox" class="wrapper">
 		<div  class="recommend_content" ref="Mbox">
 			<div class="recommend-cont" >
 				<div class="hoom1box">
@@ -35,8 +35,9 @@
 
 <script>
 import Swiper from 'swiper';
-import BScroll from 'better-scroll'
+import BScroll from '@better-scroll/core'
 import musicList from '@/components/musicList'
+
 
 export default {
   created (){
@@ -86,20 +87,15 @@ export default {
 			this.$axios.get('http://120.79.162.149:3000/personalized')
 			.then(re =>{
 				this.recommendList=re.data.result
+
 				this.$nextTick(() => {
 					//$refs绑定元素
 					if(!this.scroll){
 						this.scroll = new BScroll(this.$refs.Mbox, {
 						click:true   //开启点击事件 默认为false
 					})
-					console.log(this.scroll)
-					}else if(!this.$refs.Mbox){
-						return
 					}
-					else{
-						this.scroll.refresh()
-					}
-        })
+        		})
 			})
 		},
     

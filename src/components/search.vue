@@ -31,32 +31,23 @@
           >{{item}}</div>
         </div>
       </div>
-      <div class="scrollBox" ref="page" v-if="searchList.length>1">
+      <div class="scrollBox" ref="page" v-if="searchList.length >= 1">
         <div class="SearchResultsBox">
-          <div class="SearchResults" v-for="(item,index) of searchList" :key="index" @click="playSong(item.id,item.name,item.artists[0].name,item.album.blurPicUrl)">
+          <div class="SearchResults" v-for="(item,index) of searchList" :key="index" 
+            @click="playSong(item.id,item.name,item.artists[0].name,item.album.blurPicUrl)">
             <div class="searchName">{{item.name}}</div>
             <div>{{item.artists[0].name}}</div>
           </div>
         </div>
       </div>
       
-      <div>
-        <el-button class="lBtn" type="danger" @click="dNumber+=10" size="small" round>add</el-button>        
-        <el-button class="lBtn" type="danger" @click="dNumber-=10" size="small" round>down</el-button>        
-        
-        <P >{{dNumber}}</P>
-        <input class=""   placeholder="1111" type="text">
-      </div>
-      <div id="animated-number-demo">
-        <input v-model.number="number" type="number" step="20">
-        <p>{{ animatedNumber }}</p>
-      </div>
+      
     </div>
   </transition>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import BScroll from '@better-scroll/core'
 
 
 const debounce = (func, wait) => {
@@ -81,7 +72,6 @@ export default {
       showDetail: false,
       searchHistory: [],
       searchTip:true,
-
       number: 0,
       tweenedNumber: 0,
       dNumber:0
@@ -116,25 +106,12 @@ export default {
         sHistory==null?'':this.searchHistory = sHistory.split(',');
         this.searchWorld=''
         this.hotList = re.data.result.hots;
-        this.btScroll();
-        this.$nextTick(() => {
-					//$refs绑定元素
-					if(!this.scroll){
-						this.scroll = new BScroll(this.$refs.page, {
-						click:true   //开启点击事件 默认为false
-					})
-					console.log(this.scroll)
-					}else if(!this.$refs.page){
-						return
-					}
-					else{
-						this.scroll.refresh()
-					}
-        })
+
+        
       });
     },
     sollorder() {
-      this.detailWrapper = new BScroll(this.$refs.wrapper, {
+      this.detailWrapper = new BScroll(this.$refs.page, {
         click: true //开启点击事件 默认为false
       });
     },
@@ -150,6 +127,14 @@ export default {
       .then(re => {
         this.searchList = re.data.result.songs;
         this.searchTip=false
+        this.$nextTick(() => {
+          //$refs绑定元素
+					if(!this.scroll){
+						this.scroll = new BScroll(this.$refs.page, {
+						// click:true   //开启点击事件 默认为false
+					  })
+					}
+      })
       });
       if(this.searchHistory.includes(this.searchWorld)){
         var i = this.searchHistory.indexOf(this.searchWorld)
@@ -162,6 +147,7 @@ export default {
       this.searchHistory.push(this.searchWorld);
       this.searchHistory.reverse()
       localStorage.setItem('searchHistory',this.searchHistory)
+      
     },
     toText:()=>{
       //n nnn nn nn
@@ -186,7 +172,7 @@ export default {
   position: fixed;
   top: 0;
   z-index: 50;
-  background: #ffff;
+  background: #fff;
 }
 .topctrl {
   display: flex;
@@ -254,7 +240,9 @@ export default {
 .scrollBox{
   width: 100vw;
   height: calc(100vh - 44px);
+  margin-top: 44px;
   z-index: 80;
+
 }
 .addTop{margin-top: 44px;}
 </style>

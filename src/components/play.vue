@@ -7,17 +7,17 @@
 					<div class="r-title">{{$store.state.playInfo.name}}</div>
 					<div class="r-art">{{$store.state.playInfo.art}}</div>
 				</div>
-				<div class="playInfo" @click="getGeci">
+				<div class="playInfo" @click="getGeci()">
 					<div class="imgbox flex" v-if="AorB">
 						<!-- <div class="lianyi" :class='cdCls'>
 							<div :class='ddCls'><div class="mini"></div></div>
-						</div>
+						</div> -->
 						<div class="lianyi ly2" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m2"></div></div>
 						</div>
 						<div class="lianyi ly3" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m3"></div></div>
-						</div> -->
+						</div>
 						<div class="lianyi ly4" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m4"></div></div>
 						</div>
@@ -52,7 +52,7 @@
 								preload="metadata"
 								controls autoplay></audio>
 							<!-- autoplay -->
-							<audio data-v-42381944="" style="opacity: 1;" id="myAudio" preload="metadata" controls="controls" autoplay="autoplay" src="http://m10.music.126.net/20200314155348/c64bb905907ef12227e022350ff3aa79/ymusic/7e4e/5603/665c/e7fa3d7af4dad1df939b033412e83128.mp3"></audio>
+							
 						</div> 
 					
 				</div>
@@ -202,10 +202,10 @@ export default {
 			this.$store.state.songList.splice(e,1)
 		},
 		getData(){
-			// this.showDetail1 = !this.showDetail1
-			// this.musicInfo = JSON.parse(sessionStorage.getItem("playInfo"))
-			// console.log(this.musicInfo)
-			// console.log('session'+sessionStorage.getItem('playInfo'))
+			this.showDetail1 = !this.showDetail1
+			this.musicInfo = JSON.parse(sessionStorage.getItem("playInfo"))
+			console.log(this.musicInfo)
+			console.log('session'+sessionStorage.getItem('playInfo'))
 
 			if(this.$store.state.playInfo.id!==''){
 			// 获取歌词
@@ -225,7 +225,7 @@ export default {
 					this.geci = geci
 				}else{
 					this.geci =['暂无歌词']
-					console.log('暂无歌词')
+					// console.log('暂无歌词')
 				}
 
 				this.$nextTick(() => {
@@ -234,7 +234,7 @@ export default {
 					this.scroll = new BScroll(this.$refs.playbox, {
 					click:true   //开启点击事件 默认为false
 					})
-					console.log(this.scroll)
+					// console.log(this.scroll)
 					}else if(!this.$refs.playbox){
 					return
 					}
@@ -251,8 +251,7 @@ export default {
 			this.$axios.get('http://120.79.162.149:3000/like?id=' + this.$store.state.playInfo.id +'&like='+ !this.isLike)
 			.then(re=>{
 				consloe.log(this.isLike)
-				// var that = this
-				// that.isLike=!that.isLike
+				this.isLike=!this.isLike
 			})
 		},
 		getGeci(){
@@ -265,31 +264,31 @@ export default {
 			
 		},
 		// 控制音频的播放与暂停
-		startPlayOrPause () {
+		startPlayOrPause() {
 			this.playIcon ?  this.pause():this.play()
 			
 			this.playIcon=!this.playIcon
 		},
 
-		// offPlay(){
-		// 	this.showToggle();
-		// },
+		offPlay(){
+			this.showToggle();
+		},
 		// 播放音频
-		play () {
+		play() {
 			this.$refs.audio.play()
 		},
 		// 暂停音频
-		pause () {
+		pause() {
 			this.$refs.audio.pause()
 		},
 		// 当音频播放
-		onPlay () {
+		onPlay() {
 			this.playing = true
 			this.$store.state.playing = true
 
 		},
 		// 当音频暂停
-		onPause () {
+		onPause() {
 			this.playing = false
 			this.$store.state.playing = false
 		},
@@ -337,7 +336,7 @@ export default {
 			this.getData()
 		},
 		onEnded(){
-			alert('播放结束')
+			console.log('播放结束')
 			this.$refs.audio.pause()
 		},
 		ocAbort(){
@@ -445,7 +444,7 @@ audio{opacity: .1;}
 .palymask{z-index: 910;position: absolute;width: 100vw;height: 100vh;top: 0;left: 0;filter: blur(90px);background-size: cover;background-position: 50% 0;}
 .blackmask{background: rgba(0, 0, 0, 0.1);z-index: 911;;width: 100vw;height: 100vh;position: absolute;top: 0%;}
 .MBox{background: #f2f3f4;width: 100vw;;height: 100vh;position: fixed;top: 0;z-index: 900;}
-.playbox{z-index: 999;position: fixed;width:100%;top: 0;height:100vh;margin:0 auto;}
+.playbox{background: rgba(0, 0, 0, 0.15);z-index: 999;position: fixed;width:100%;top: 0;height:100vh;margin:0 auto;}
 .r-title{text-align:center;font-size:18px;font-weight: bold;line-height: 44px;user-select:none;}
 .r-art{display: flex;align-items: center;margin-left: 10px;}
 .imgbox{width:250px;height:122vw;border-radius:50%;margin: auto;}

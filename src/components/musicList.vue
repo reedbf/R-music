@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import BScroll from '@better-scroll/core'
 
 export default {
 	props: {
@@ -96,12 +96,6 @@ export default {
 							this.scroll = new BScroll(this.$refs.Mbox, {
 							click:true   //开启点击事件 默认为false
 						})
-						console.log(this.scroll)
-						}else if(!this.$refs.Mbox){
-							return
-						}
-						else{
-							this.scroll.refresh()
 						}
 					})
 				})

@@ -28,7 +28,7 @@
 </template>
 // 
 <script>
-import BScroll from "better-scroll";
+// import BScroll from "better-scroll";
 import leftMenu from "@/components/menu";
 import searchS from "@/components/search";
 export default {
@@ -50,19 +50,19 @@ export default {
     sessionStorage.getItem("add1") == undefined
       ? (this.homeID = "home1")
       : (this.add1 = sessionStorage.getItem("add1"));
-    this.$nextTick(() => {
-      //$refs绑定元素
-      if (!this.scroll) {
-        this.scroll = new BScroll(this.$refs.pHead, {
-          click: true //开启点击事件 默认为false
-        });
-        console.log(this.scroll);
-      } else if (!this.$refs.pHead) {
-        return;
-      } else {
-        this.scroll.refresh();
-      }
-    })
+    // this.$nextTick(() => {
+    //   //$refs绑定元素
+    //   if (!this.scroll) {
+    //     this.scroll = new BScroll(this.$refs.pHead, {
+    //       click: true //开启点击事件 默认为false
+    //     });
+    //     console.log(this.scroll);
+    //   } else if (!this.$refs.pHead) {
+    //     return;
+    //   } else {
+    //     this.scroll.refresh();
+    //   }
+    // })
   },
   methods: {
     topChange: function(e) {

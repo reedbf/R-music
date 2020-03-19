@@ -130,7 +130,7 @@ export default {
             }
         })
         
-        console.log(this.scroll)
+        // console.log(this.scroll)
         }else if(!this.$refs.comment){
           return
         }

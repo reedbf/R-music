@@ -41,7 +41,7 @@ export default {
       this.playInfo = JSON.parse(sessionStorage.getItem("playInfo"))
     }
     sessionStorage.getItem('themeColor')==null?this.$store.state.zColor='#ffb5b0':this.$store.state.zColor=sessionStorage.getItem('themeColor')
-    
+    var lastPlay = localStorage.getItem('lastPlay');
   },
   // watch(){
   //   playInfo(){

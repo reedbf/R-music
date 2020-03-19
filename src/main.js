@@ -21,7 +21,8 @@ Vue.prototype.api1='/api'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
-import BScroll from 'better-scroll';
+import BScroll from '@better-scroll/core';
+
 Vue.prototype.$BScroll = BScroll;
 
 import './router/public.js'
@@ -114,6 +115,15 @@ Vue.prototype.playSong=function(q,w,e,r,index){
         // this.musicInfo.push({'audio':re.data.data[0].url})
         // this.audio = re.data.data[0].url
         re.data.code!=200 ?'':this.$store.state.audio=re.data.data[0].url
+      })
+      this.$axios.get('http://120.79.162.149:3000/song/detail?ids='+ this.$store.state.playInfo.id)
+      .then(re =>{
+        re.data.code!=200 ?'':this.$store.state.playInfo.bgurl=re.data.songs[0].al.picUrl
+        
+      })
+      this.$nextTick(( ) => {
+        console.log(this.$store.state.playInfo.toString())
+        localStorage.setItem('lastPlay',this.$store.state.playInfo.toString())
       })
     
   }
