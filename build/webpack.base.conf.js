@@ -22,7 +22,7 @@ module.exports = {
   plugins: [
 		
 		// new CleanWebpackPlugin(),
-		new webpack.HotModuleReplacementPlugin()
+		// new webpack.HotModuleReplacementPlugin()
 	],
   output: {
     path: config.build.assetsRoot,
