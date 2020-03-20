@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import BScroll from '@better-scroll/core'
 import Phead from "./components/p-head"
 import AppTab from "./components/tab"
 import leftMenu from '@/components/search'

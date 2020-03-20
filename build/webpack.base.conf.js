@@ -17,7 +17,7 @@ module.exports = {
     app: './src/main.js'
   },
   devServer: {
-    hot:true
+    // hot:true
   },
   plugins: [
 		

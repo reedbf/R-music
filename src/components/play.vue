@@ -12,12 +12,12 @@
 						<!-- <div class="lianyi" :class='cdCls'>
 							<div :class='ddCls'><div class="mini"></div></div>
 						</div> -->
-						<div class="lianyi ly2" :class='cdCls'>
+						<!-- <div class="lianyi ly2" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m2"></div></div>
 						</div>
 						<div class="lianyi ly3" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m3"></div></div>
-						</div>
+						</div> -->
 						<div class="lianyi ly4" :class='cdCls'>
 							<div :class='ddCls'><div class="mini m4"></div></div>
 						</div>
@@ -47,12 +47,10 @@
 								@timeupdate="onTimeupdate" 
 								@loadedmetadata="onLoadedmetadata"
 								@ended="onEnded"
-								@abort="ocAbort"
+								@abort="onAbort"
 								:src="$store.state.audio" id="myAudio" 
 								preload="metadata"
 								controls autoplay></audio>
-							<!-- autoplay -->
-							
 						</div> 
 					
 				</div>
@@ -104,7 +102,7 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import BScroll from '@better-scroll/core'
 import comment from '@/components/comment'
 export default {
 	name:'play',
@@ -133,6 +131,9 @@ export default {
 			xx1:0,
 			// isEnd:this.$refs.audio.ended
 		}
+	},
+	async handleShow() {
+		this.getData()
 	},
 	components: {
     "comment": comment,
@@ -202,6 +203,7 @@ export default {
 			this.$store.state.songList.splice(e,1)
 		},
 		getData(){
+			console.log('get data')
 			this.showDetail1 = !this.showDetail1
 			this.musicInfo = JSON.parse(sessionStorage.getItem("playInfo"))
 			console.log(this.musicInfo)
@@ -231,15 +233,7 @@ export default {
 				this.$nextTick(() => {
 					//$refs绑定元素
 					if(!this.scroll){
-					this.scroll = new BScroll(this.$refs.playbox, {
-					click:true   //开启点击事件 默认为false
-					})
-					// console.log(this.scroll)
-					}else if(!this.$refs.playbox){
-					return
-					}
-					else{
-					this.scroll.refresh()
+					this.scroll = new BScroll(this.$refs.playbox, )
 					}
 				})
 			})
@@ -339,8 +333,8 @@ export default {
 			console.log('播放结束')
 			this.$refs.audio.pause()
 		},
-		ocAbort(){
-			console.log('ocAbort')
+		onAbort(){
+			console.log('onAbort')
 		},
 		//时间格式转换
 		realFormatSecond(second) {
@@ -359,20 +353,20 @@ export default {
 		},
 		// timeupdate事件大概每秒一次，更新音频流的当前播放时间
 		onTimeupdate(res) {
-			// this.playing==false?this.playIcon=true:''
-			// console.log('timeupdate')
-			// console.log(res)
+			
+
 			this.timeVal = res.target.currentTime
 			this.currentTime = this.realFormatSecond(res.target.currentTime)
+
 			// Math.floor(timeVal)
-			for (var i in this.geci) {
-				if (this.timeVal /*当前播放的时间*/ <= this.geci[i].time) {
-					//显示到页面
-					this.geciTime = this.geci[i-1].time;
-					// this.scroll.scrollTo(0, -40*i, 300, ease['swipeBounce'])
-					return
-				};
-    		};
+			// for (var i in this.geci) {
+			// 	if (this.timeVal /*当前播放的时间*/ <= this.geci[i].time) {
+			// 		//显示到页面
+			// 		this.geciTime = this.geci[i-1].time;
+			// 		// this.scroll.scrollTo(0, -40*i, 300, ease['swipeBounce'])
+			// 		return
+			// 	};
+    		// };
 			
 		},
 		// 当加载语音流元数据完成后，会触发该事件的回调函数
