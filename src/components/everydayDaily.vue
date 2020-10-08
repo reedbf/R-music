@@ -34,7 +34,7 @@ export default {
         getData:function(){
 			var that = this
 			if(this.song!= undefined&&this.song!=null&&this.song!=''){
-				this.$axios.get('http://120.79.162.149:3000/recommend/songs')
+				this.$axios.get('/recommend/songs')
 				.then(re =>{
 					this.songList=re.data.result
 					that.$store.state.songList=re.data.result.tracks

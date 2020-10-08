@@ -34,7 +34,7 @@ export default {
       var that =this
       for (const i of that.PHBarr) {
         var duix = 'that.arr'+i
-        this.$axios.get('http://120.79.162.149:3000/top/list?idx='+i)
+        this.$axios.get('/top/list?idx='+i)
         .then(re =>{
             var list=re.data.playlist
             that.arr0.push(list);

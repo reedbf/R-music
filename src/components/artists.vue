@@ -69,7 +69,7 @@ export default {
     methods:{
     	getData:function(){
 				var that = this
-				this.$axios.get('http://120.79.162.149:3000/artists?id='+ this.pass)
+				this.$axios.get('/artists?id='+ this.pass)
 				.then(re =>{
 						this.songList=re.data.hotSongs
 						that.$store.state.songList=re.data.hotSongs

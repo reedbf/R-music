@@ -111,7 +111,7 @@ export default {
   methods:{
     getData(){
         var playId= this.$store.state.playInfo.id
-        this.$axios.get('http://120.79.162.149:3000/comment/music?id='+playId+'&offset=20')
+        this.$axios.get('/comment/music?id='+playId+'&offset=20')
         .then(re=>{
             this.comments = re.data.comments
         })

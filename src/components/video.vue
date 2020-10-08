@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     getData: function() {
-      this.$axios.get('http://120.79.162.149:3000/video/url?id=89ADDE33C0AAE8EC14B99F6750DB954D')
+      this.$axios.get('/video/url?id=89ADDE33C0AAE8EC14B99F6750DB954D')
       .then(re=>{
         this.bigData = re
         console.log(this.bigData)
@@ -83,7 +83,7 @@ export default {
       //   win.addEventListener(resizeEvt, setRemResponse, false);
       // })(document, window);
 
-      // this.$axios.get('http://120.79.162.149:3000/banner')
+      // this.$axios.get('/banner')
       // .then(re =>{
       this.$nextTick(() => {
         //$refs绑定元素

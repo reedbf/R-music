@@ -68,11 +68,11 @@ export default {
     getData(){
       var userId = JSON.parse(localStorage.getItem('userInfo')).userId;
       var that = this
-      this.$axios.get('http://120.79.162.149:3000/user/record?uid='+ userId +'&type=0')
+      this.$axios.get('/user/record?uid='+ userId +'&type=0')
       .then(re =>{
         that.menu1=re.data
       })
-      this.$axios.get('http://120.79.162.149:3000/user/playlist?uid='+ userId)
+      this.$axios.get('/user/playlist?uid='+ userId)
       .then(re =>{
         that.allList=re.data.playlist
       })

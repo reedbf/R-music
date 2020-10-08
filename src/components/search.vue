@@ -64,6 +64,9 @@ const debounce = (func, wait) => {
 
 export default {
   el: '#animated-number-demo',
+  mounted() {
+		console.log("search")
+	},
   data() {
     return {
       hotList: [],
@@ -101,7 +104,7 @@ export default {
   },
   methods: {
     getData: function() {
-      this.$axios.get( "http://120.79.162.149:3000/search/hot").then(re => {
+      this.$axios.get( "/search/hot").then(re => {
         var sHistory = localStorage.getItem('searchHistory');
         sHistory==null?'':this.searchHistory = sHistory.split(',');
         this.searchWorld=''
@@ -123,7 +126,7 @@ export default {
       }
     }, 1000),
     getHot: function() {
-      this.$axios.get("http://120.79.162.149:3000/search?keywords=" + this.searchWorld)
+      this.$axios.get("/search?keywords=" + this.searchWorld)
       .then(re => {
         this.searchList = re.data.result.songs;
         this.searchTip=false

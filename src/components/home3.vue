@@ -44,7 +44,7 @@ export default {
 	},
 	methods:{
 		getData: function(e){
-			this.$axios.get('http://120.79.162.149:3000/top/artists?limit=100')
+			this.$axios.get('/top/artists?limit=100')
 			.then(re => {
 				this.HotArtistsList=re.data.artists.slice(0,10)
 				this.artistsList=re.data.artists

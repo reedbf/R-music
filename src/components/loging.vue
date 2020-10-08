@@ -28,7 +28,7 @@ export default {
         var pattern = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]*\.)+[A-Za-z]{2,14}$/;
         //   判断登入方式
         pattern.test(this.userId)?this.LoginMethod = '?email=':this.LoginMethod = '/cellphone?phone='
-        this.$axios.get('http://120.79.162.149:3000/login'+this.LoginMethod+this.userId+'&password='+ this.userPw)
+        this.$axios.get('/login'+this.LoginMethod+this.userId+'&password='+ this.userPw)
         .then(re=>{
             that.$router.go(-1);
             localStorage.setItem('userInfo', JSON.stringify(re.data.profile));

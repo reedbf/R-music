@@ -13,6 +13,7 @@ import me from '@/components/me'
 import menu from '@/components/menu'
 import video from '@/components/video'
 import everydayDaily from '@/components/everydayDaily'
+import musicCtrl from '@/components/musicCtrl'
 
 Vue.use(Router)
 
