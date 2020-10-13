@@ -14,11 +14,17 @@ module.exports = {
     assetsPublicPath: "/",
     proxyTable: {
       "/api": {
-        target: "http://120.79.162.149:3000",
-        // target: "http://api.javaswing.cn", //目标接口域名""
+        target: "http://120.79.162.149:3000", //目标接口域名""
         changeOrigin: true, //是否跨域
         pathRewrite: {
           "^/api": ""
+        }
+      },
+      "/testIp": {
+        target: "http://api.javaswing.cn",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/testIp": ""
         }
       }
     },
